@@ -3,10 +3,10 @@ Last Updated: 23rd March 2018
 
 ## Versions Used
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) v1.7.3
-* MongoDB v3.6.2 (Mongoose 5.0.9)
-* Express v4.16.2
-* Angular v5.2.8
-* Node.js v9.8.0
+* MongoDB v3.6.2 (Mongoose 5.0.11)
+* Express v4.16.3
+* Angular v5.2.9
+* Node.js v9.9.0
 
 
 ## Starting the Project
