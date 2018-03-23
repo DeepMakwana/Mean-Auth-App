@@ -39,7 +39,7 @@ const appRoutes: Routes = [
     RegisterComponent
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     FormsModule,
     HttpClientModule,
     RouterModule.forRoot(appRoutes),

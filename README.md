@@ -1,5 +1,6 @@
 # Mean-Auth-App
-Last Updated: 23rd March 2018
+### Last Update: 23rd March 2018
+This project has been updated with the most recent MEAN versions listed below and has been integrated with **Angular Universal** for SEO and social media compatibility using server-side rendering.
 
 ## Versions Used
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) v1.7.3

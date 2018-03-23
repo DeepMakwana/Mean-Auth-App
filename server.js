@@ -1,5 +1,12 @@
+// ******************************************
+// INITIALIZATION
+// ******************************************
+// Server specific version of Zone.js for SSR
+require('zone.js/dist/zone-node');
+
 // Dependencies
 const express = require('express');
+const ngUniversal = require('@nguniversal/express-engine');
 const path = require('path');
 const cors = require('cors');
 const passport = require('passport');
@@ -10,13 +17,16 @@ const config = require('./config/database');
 const app = express();
 const port = process.env.PORT || 3000;
 
+// Server Bundle
+const appServer = require('./dist-server/main.bundle');
+
 // Connect to database via mongoose
 mongoose.connect(config.database)
-  .then(() => console.log(`MongoDB Connected ${config.database}`))
+  .then(() => console.log('MongoDB Connected'))
   .catch(err => console.log(err));
 
 // Routes
-// const angular = require('./routes/angular');
+const angular = require('./routes/angular');
 const users = require('./routes/users');
 
 // ******************************************
@@ -37,20 +47,24 @@ app.use(passport.session());
 // ******************************************
 // ROUTES
 // ******************************************
+// Server side-rendering of root route
+app.get('/', angular.serverRouter);
+
 // API calls go here
 app.use('/users', users);
 
 // Serve static files
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(`${__dirname}/dist`));
 
-// Index Route
-app.get('/', (req, res) => {
-  res.send("Invalid Endpoint");
-});
+// Configure Angular Express engine
+app.engine('html', ngUniversal.ngExpressEngine({
+    bootstrap: appServer.AppServerModuleNgFactory
+}));
+app.set('view engine', 'html');
+app.set('views', 'dist');
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public/index.html'));
-});
+// Direct all other routes to index.html
+app.get('*', angular.serverRouter);
 
 // ******************************************
 // API ERROR HANDLER
